@@ -1,0 +1,208 @@
+﻿
+@using NewDemo.Web.Startup
+@{
+    ViewBag.CurrentPageName = PageNames.AddProducts; // The menu item will be active for this page.
+}
+@section styles {
+    @*<link href="~/lib/morris.js/morris.css" rel="stylesheet" asp-append-version="true" />*@
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+}
+
+@section scripts
+{
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <environment names="Development">
+        <script src="~/lib/jquery-countTo/jquery.countTo.js" asp-append-version="true"></script>
+        <script src="~/lib/raphael/raphael.js" asp-append-version="true"></script>
+        <script src="~/lib/morris.js/morris.js" asp-append-version="true"></script>
+        <script src="~/lib/chart.js/dist/Chart.bundle.js" asp-append-version="true"></script>
+        <script src="~/lib/Flot/jquery.flot.js" asp-append-version="true"></script>
+        <script src="~/lib/Flot/jquery.flot.resize.js" asp-append-version="true"></script>
+        <script src="~/lib/Flot/jquery.flot.pie.js" asp-append-version="true"></script>
+        <script src="~/lib/Flot/jquery.flot.categories.js" asp-append-version="true"></script>
+        <script src="~/lib/Flot/jquery.flot.time.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-sparkline/dist/jquery.sparkline.js" asp-append-version="true"></script>
+        <script src="~/view-resources/Views/AddProducts/Index.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/_Bundles/addproducts-index.min.js" asp-append-version="true"></script>
+    </environment>
+}
+
+@*<div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        Add New Product
+                    </h2>
+                </div>
+                <div class="header">
+                    <input type="button" value="Add" />
+                </div>
+            </div>
+        </div>
+    </div>*@
+<div class="row clearfix">
+    <div class="block-header">
+        <h3 style="color:darkslategrey">Add New Product</h3>
+        <input type="button" value="Save" />
+    </div>
+</div>
+
+<div class="row clearfix">
+    <div class="col-lg-8 col-xs-12">
+        <div class="col-lg-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">General Infor</div>
+                <div class="panel-body">
+                    <div class="row col-md-12">
+                        <div class="col-sm-2">
+                            <picture></picture>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="row col-sm-12">
+                                <div class="col-sm-5"><label>SAP Code</label></div>
+                                <div class="col-sm-7"><input type="text" placeholder="Code" /></div>
+                            </div>
+                            <div class="row col-sm-12">
+                                <div class="col-sm-5"><div class="text"><label>Name</label></div></div>
+                                <div class="col-sm-7"><input type="text" placeholder="Name" /></div>
+                            </div>
+                            <div class="row col-sm-12">
+                                <div class="col-sm-5"><div class="text"><label>Base UOM</label></div></div>
+                                <div class="col-sm-7"><select id="BaseUOM"></select></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="row col-sm-12">
+                                <div class="col-sm-5"><label>Short Name </label></div>
+                                <div class="col-sm-7"><input type="text" placeholder="Code" /></div>
+                            </div>
+                            <div class="row col-sm-12">
+                                <div class="col-sm-5"><label>Invoicing Name</label></div>
+                                <div class="col-sm-7"><input type="text" placeholder="Name" /></div>
+                            </div>
+                            <div class="row col-sm-12">
+                                <div class="col-sm-5"><label>Length</label></div>
+                                <div class="col-sm-7"><input type="text" placeholder="Number" /></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12">
+            <div class="col-lg-8 leftGroup">
+                <div class="panel panel-primary">
+                    <div class="panel-heading text-center">UOM</div>
+                    <div class="panel-body">
+                        <table class="table table-bordered table-hover small">
+                            <thead style="background-color:aquamarine; text-anchor:middle; text-align:center">
+                                <tr>
+                                    <th scope="col">UOM Code</th>
+                                    <th scope="col">UOM Description</th>
+                                    <th scope="col">Base UOM</th>
+                                    <th scope="col">Minimum UOM</th>
+                                    <th scope="col">Default UOM</th>
+                                    <th scope="col">Conv. Factor To Minimum UOM</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>CAR</td>
+                                    <td>Carton</td>
+                                    <td><input type="checkbox" /></td>
+                                    <td><input type="checkbox" /></td>
+                                    <td><input type="checkbox" /></td>
+                                    <td>12</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 rightGroup">
+                <div class="panel panel-primary">
+                    <div class="panel-heading text-center">Tax</div>
+                    <div class="panel-body">
+                        <div class="row col-sm-12">
+                            <div class="col-sm-5 col-xs-12"><label>VAT(%)</label></div>
+                            <div class="col-sm-7 col-xs-12"><input id="VAT" type="text" placeholder="Number" /></div>
+                        </div>
+                        <div class="row col-sm-12">
+                            <div class="col-sm-5 col-xs-12"><label>Other(%)</label></div>
+                            <div class="col-sm-7 col-xs-12"><input id="Other" type="text" placeholder="Number" /></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-4 col-xs-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading text-center">Product Structure</div>
+            <div class="panel-body">
+                <div class="row col-md-12">
+                    @*<div class="col-sm-5">
+                            <div class="row">
+                                <label>Base UOM</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="row col-xs-12">
+                                <select id="Business"></select>
+                            </div>
+                        </div>*@
+                    <div class="col-sm-5"><label>Business Category</label></div>
+                    <div class="col-sm-7"><select class="cbxSelect"></select></div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-sm-5"><label>Business Line</label></div>
+                    <div class="col-sm-7"><select class="cbxSelect"></select></div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-sm-5"><label>Product Category</label></div>
+                    <div class="col-sm-7"><select class="cbxSelect"></select></div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-sm-5"><label>Product Line</label></div>
+                    <div class="col-sm-7"><select class="cbxSelect"></select></div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-sm-5"><label>Product Group</label></div>
+                    <div class="col-sm-7"><select class="cbxSelect"></select></div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-sm-5"><label>Product Class</label></div>
+                    <div class="col-sm-7"><select class="cbxSelect"></select></div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-sm-5"><label>Branch</label></div>
+                    <div class="col-sm-7"><select class="cbxSelect"></select></div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-sm-5"><label>Sub-branch</label></div>
+                    <div class="col-sm-7"><select class="cbxSelect"></select></div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-sm-5"><label>Feature 1</label></div>
+                    <div class="col-sm-7"><select class="cbxSelect"></select></div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-sm-5"><label>Feature 2</label></div>
+                    <div class="col-sm-7"><select class="cbxSelect"></select></div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-sm-5"><label>Feature 3</label></div>
+                    <div class="col-sm-7"><select class="cbxSelect"></select></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
